@@ -50,8 +50,18 @@ public class SpringAndSpringBootApplication {
 				.collect(Collectors.toList());
 	}
 
+	// eugene: this is to show that if you want the query para, to be enum, then if a non-enum value is input, there will be error
 	@GetMapping("/{id}")
 	public Optional<Person> getPersonById(@PathVariable("id") Integer id,
+										  @RequestParam(value = "sort", required = false, defaultValue = "ASC") SortOrder sort) {
+		System.out.println(sort);
+		return people.stream().filter(person -> person.id == id).findFirst();
+	}
+
+	// eugene: this is to show that if you want the path variable to be enum, then if a non-enum value is input, there will be error
+	@GetMapping("/{id}/{gender}")
+	public Optional<Person> getPersonById(@PathVariable("id") Integer id,
+										  @PathVariable("gender") Gender gender,
 										  @RequestParam(value = "sort", required = false, defaultValue = "ASC") SortOrder sort) {
 		System.out.println(sort);
 		return people.stream().filter(person -> person.id == id).findFirst();
